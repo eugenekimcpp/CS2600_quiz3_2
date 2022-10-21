@@ -21,6 +21,7 @@
 */
 #include <stdio.h>
 #include <stdlib.h> 
+#include <time.h>
 
 int main(int argc, char *argv[])
 {
@@ -36,12 +37,12 @@ int main(int argc, char *argv[])
         double menu[] = {9.95, 4.55, 13.25, 22.35};
         const int MAX = 10; // max number of order
         int n; // actial number of order
-        int bill = 0; // used to store bill
-        
+        double bill = 0; // used to store bill
+        double totalBill; 
 
         time_t t; 
 
-        srand((unsinged) time(&t)); // Init. RNG
+        srand((unsigned) time(&t)); // Init. RNG
 
         n = (rand() % 10) + 1; // order range 1-10
 
@@ -52,8 +53,26 @@ int main(int argc, char *argv[])
 
         // now random bill is generated. 
 
+        // Now extract the percentage of tax and tip
+        // use double strtod(str, &end) 
+        char *endPtr;
+        double tax = strtod(argv[1], &endPtr);
+        double tip = strtod(argv[2], &endPtr);
+
+        // calculate the tip and tax based on the bill 
+        tax = (bill/100.0) * tax;
+        tip = (bill/100.0) * tip; 
+
+        totalBill = bill + tax + tip; 
+
+        printf("Meal cost: $%.2f\n", bill);
+        printf("Tax amount: $%.2f\n", tax);
+        printf("Tip amount: $%.2f\n", tip);
+        printf("Total bill: $%.2f\n", totalBill);
+
 
     }
 
 
-})
+    return 0; 
+}
